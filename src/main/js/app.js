@@ -10,8 +10,8 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		client({method: 'GET', path: '/api/populations'}).done(response => {
-			this.setState({populations: response.entity._embedded.employees});
+		client({method: 'GET', path: '/emissions/src/main/resources/population.xml'}).done(response => {
+			this.setState({populations: response.entity._embedded.populations});
 		});
 	}
 
