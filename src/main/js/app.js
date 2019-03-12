@@ -4,57 +4,47 @@ const client = require('./client');
 
 class App extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {populations: []};
-	}
+	handleSubmit(event) {
 
-	componentDidMount() {
-		client({method: 'GET', path: '/emissions/src/main/resources/population.xml'}).done(response => {
-			this.setState({populations: response.entity._embedded.populations});
-		});
-	}
+	    //here the file will be opened
+	    //submit pressed
 
-	render() {
-		return (
-			<PopulationList populations={this.state.populations}/>
-		)
-	}
-}
+		const rawFile = new XMLHttpRequest();
 
-class PopulationList extends React.Component{
-	render() {
-		const populations = this.props.populations.map(employee =>
-			<Population key={population._links.self.href} population={population}/>
-		);
-		return (
-			<table>
-				<tbody>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Description</th>
-					</tr>
-					{populations}
-				</tbody>
-			</table>
-		)
-	}
-}
+		rawFile.onreadystatechange = () => {
+		  if (rawFile.readyState === 4 && (rawFile.status === 200 || rawFile.status === 0)) {
+		    const parser = new DOMParser();
+		    const xml = parser.parseFromString(rawFile.response, 'text/xml');
+
+		    // Do your querying here.
+		    // xml will can now be queried like DOM
+		    // e.g. xml.querySelector('ST_TIMERANGE').getAttribute('Weeks') // returns 2.
+		  }
+		};
+
+		rawFile.open('GET', this.App.files[0], false);
+		rawFile.send();	
 
 class population extends React.Component{
 	render() {
 		return (
-			<tr>
-				<td>{this.props.population.countryOrArea}</td>
-				<td>{this.props.population.year}</td>
-				<td>{this.props.population.value}</td>
-			</tr>
+				<form onSubmit={this.handleSubmit}>
+		        <label>
+		          Upload file:
+		          <input
+		            type="file"
+		            ref={input => {
+		              this.App = input;
+		            }}
+		          />
+		        </label>
+		        <br />
+		        <button type="submit">Search</button>
+		      </form>		
 		)
 	}
 }
+}
+}
 
-ReactDOM.render(
-	<App />,
-	document.getElementById('react')
-)
+ReactDOM.render(<App />, document.getElementById('react'));
