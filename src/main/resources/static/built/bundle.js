@@ -30235,10 +30235,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
@@ -30265,59 +30261,6 @@ function (_React$Component) {
 
     return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
   }
-
-  _createClass(App, [{
-    key: "handleSubmit",
-    value: function handleSubmit(event) {
-      //here the file will be opened
-      //submit pressed
-      var rawFile = new XMLHttpRequest();
-
-      rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4 && (rawFile.status === 200 || rawFile.status === 0)) {
-          var parser = new DOMParser();
-          var xml = parser.parseFromString(rawFile.response, 'text/xml'); // Do your querying here.
-          // xml will can now be queried like DOM
-          // e.g. xml.querySelector('ST_TIMERANGE').getAttribute('Weeks') // returns 2.
-        }
-      };
-
-      rawFile.open('GET', this.App.files[0], false);
-      rawFile.send();
-
-      var population =
-      /*#__PURE__*/
-      function (_React$Component2) {
-        _inherits(population, _React$Component2);
-
-        function population() {
-          _classCallCheck(this, population);
-
-          return _possibleConstructorReturn(this, _getPrototypeOf(population).apply(this, arguments));
-        }
-
-        _createClass(population, [{
-          key: "render",
-          value: function render() {
-            var _this = this;
-
-            return React.createElement("form", {
-              onSubmit: this.handleSubmit
-            }, React.createElement("label", null, "Upload file:", React.createElement("input", {
-              type: "file",
-              ref: function ref(input) {
-                _this.App = input;
-              }
-            })), React.createElement("br", null), React.createElement("button", {
-              type: "submit"
-            }, "Search"));
-          }
-        }]);
-
-        return population;
-      }(React.Component);
-    }
-  }]);
 
   return App;
 }(React.Component);

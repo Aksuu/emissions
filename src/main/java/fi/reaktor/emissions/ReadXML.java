@@ -7,49 +7,34 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ReadXML {
 	
-	public static void main(String argv[]) {
-
-	    try {
-
-		File populationFile = new File("/emissions/src/main/resources/population.xml");
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(populationFile);
-				
-		//optional, but recommended
-		//read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-		doc.getDocumentElement().normalize();
-
-		System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-				
-		NodeList nList = doc.getElementsByTagName("staff");
-				
-		System.out.println("----------------------------");
-
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-
-			Node nNode = nList.item(temp);
-					
-			System.out.println("\nCurrent Element :" + nNode.getNodeName());
-					
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element eElement = (Element) nNode;
-				
-				System.out.println("Record : " + eElement.getElementsByTagName("record").item(0).getTextContent());
-				System.out.println("Something ------------------------------------------");
-			}
-		}
-	    } catch (Exception e) {
-		e.printStackTrace();
-	    }
+	public static void main(String argv[]) throws Exception {
+		
+		// Create documentbuilder and select file to be parsed
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse(new File("/emissions/src/main/resources/population.xml"));
+		Element rootElement = document.getDocumentElement();
+		
+		
 	  }
 	
+	// Get the nodes and values
+	protected String getString(String tagName, Element element) {
+        NodeList list = element.getElementsByTagName(tagName);
+        if (list != null && list.getLength() > 0) {
+            NodeList subList = list.item(0).getChildNodes();
+
+            if (subList != null && subList.getLength() > 0) {
+                return subList.item(0).getNodeValue();
+            }
+        }
+
+        return null;
+    }
 }
 
 
